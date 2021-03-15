@@ -5,16 +5,20 @@
         <div class="jumbotron">
             <div class="row">
                 <div class="col-6">
-                    <img v-if="objectImage.image != ''" :src="objectImage.image" alt="image color" class="img-fluid" >
+                    <img v-if="objectImage.image != ''" :src="objectImage.image" alt="image color" class="img-fluid mt-5" >
                     <input type="file" class="custom-file-input" id="customFile" @change="onFileChange" >
                     <label class="btn btn-primary" for="customFile">Subir imágen</label>
-                    <button v-if="objectImage.image != ''" type="button" class="btn btn-primary" @click="getColor()">Obtener color</button>
+                    <button v-if="objectImage.image != ''" type="button" class="btn btn-primary mb-2" @click="getColor()">Obtener color</button>
                 </div>
                 <div class="col-6 text-center">
                     <h3>Color predominante</h3>
-                    <div class="card" style="height: 18rem;">
+                    <div class="card mb-3" style="height: 18rem;">
                         <div class="card-body" :style="estilo">
                         </div>
+                    </div>
+                    <div v-if="showLoading">
+                        <i class="fas fa-redo fa-spin fa-5x" ></i>
+                        <h5 class="mt-3">Obteniendo color...</h5>
                     </div>
                 </div>
             </div>
@@ -33,7 +37,8 @@ export default {
             },
             estilo:{
                 backgroundColor: ""
-            }
+            },
+            showLoading: false
         };
     },
     methods:{
@@ -46,9 +51,11 @@ export default {
         },
         getColor(){
             let me = this;
+            this.showLoading = true;
             axios.post('/image_color', this.objectImage)
                 .then( (response) => {
                     let datos = response.data;
+                    me.showLoading = false;
                     me.estilo.backgroundColor = "rgb(" + datos.red + "," + datos.green + "," + datos.blue + ")";
                     console.log(response.data);
                 })
@@ -61,4 +68,8 @@ export default {
 </script>
 
 <style lang="scss">
+.fa-spin {
+  -webkit-animation: fa-spin 2s infinite linear;
+  animation: fa-spin 2s infinite linear;
+}
 </style>
