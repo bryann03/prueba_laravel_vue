@@ -13,7 +13,7 @@
                 <div class="col-6 text-center">
                     <h3>Color predominante</h3>
                     <div class="card" style="height: 18rem;">
-                        <div class="card-body">
+                        <div class="card-body" :style="estilo">
                         </div>
                     </div>
                 </div>
@@ -30,6 +30,9 @@ export default {
         return{
             objectImage:{
                 image: ''
+            },
+            estilo:{
+                backgroundColor: ""
             }
         };
     },
@@ -42,8 +45,11 @@ export default {
             }
         },
         getColor(){
+            let me = this;
             axios.post('/image_color', this.objectImage)
                 .then( (response) => {
+                    let datos = response.data;
+                    me.estilo.backgroundColor = "rgb(" + datos.red + "," + datos.green + "," + datos.blue + ")";
                     console.log(response.data);
                 })
                 .catch( (error) => {
@@ -55,7 +61,4 @@ export default {
 </script>
 
 <style lang="scss">
-.card-body{
-    background-color: aqua;
-}
 </style>

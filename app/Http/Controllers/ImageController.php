@@ -13,7 +13,6 @@ class ImageController extends Controller
         $gTotal = 0;
         $bTotal = 0;
         $total = 0;
-        $array_rgb = [];
 
         for ($x = 0; $x < imagesx($i); $x++) {
             for ($y = 0; $y < imagesy($i); $y++) {
@@ -31,12 +30,13 @@ class ImageController extends Controller
         $gAverage = round($gTotal / $total);
         $bAverage = round($bTotal / $total);
 
-        array_push($array_rgb, $rAverage, $gAverage, $bAverage);
+        $array_rgb = array('red' => $rAverage, 'green' => $gAverage, 'blue' => $bAverage);
+        // array_push($array_rgb, $rAverage, $gAverage, $bAverage);
 
-        print_r($array_rgb);
-        echo "\n";
-        print_r($request->input('image'));
-        echo "\n";
-        return 'IMAGEN RECIBIDA';
+        // print_r($array_rgb);
+        // echo "\n";
+        // print_r($request->input('image'));
+        // echo "\n";
+        return $array_rgb;
     }
 }
