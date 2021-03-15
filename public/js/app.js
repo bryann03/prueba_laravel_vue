@@ -1845,6 +1845,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -1867,9 +1869,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
-    return {};
+    return {
+      objectImage: {
+        image: ''
+      }
+    };
+  },
+  methods: {
+    onFileChange: function onFileChange(e) {
+      var files = e.target.files || e.dataTransfer.files;
+
+      if (files.length > 0) {
+        this.objectImage.image = "http://localhost:80/images/" + files[0]['name'];
+        return;
+      }
+    },
+    getColor: function getColor() {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/image_color', this.objectImage).then(function (response) {
+        console.log(response.data);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
   }
 });
 
@@ -1940,6 +1967,7 @@ try {
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.baseURL = '/prueba_laravel_vue/public';
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -37851,36 +37879,63 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("main", [
+    _c("h1", { staticClass: "text-center" }, [_vm._v("Color de imágen")]),
+    _vm._v(" "),
+    _c("div", { staticClass: "jumbotron" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-6" }, [
+          _vm.objectImage.image != ""
+            ? _c("img", {
+                staticClass: "img-fluid",
+                attrs: { src: _vm.objectImage.image, alt: "image color" }
+              })
+            : _vm._e(),
+          _vm._v(" "),
+          _c("input", {
+            staticClass: "custom-file-input",
+            attrs: { type: "file", id: "customFile" },
+            on: { change: _vm.onFileChange }
+          }),
+          _vm._v(" "),
+          _c(
+            "label",
+            { staticClass: "btn btn-primary", attrs: { for: "customFile" } },
+            [_vm._v("Subir imágen")]
+          ),
+          _vm._v(" "),
+          _vm.objectImage.image != ""
+            ? _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: { type: "button" },
+                  on: {
+                    click: function($event) {
+                      return _vm.getColor()
+                    }
+                  }
+                },
+                [_vm._v("Obtener color")]
+              )
+            : _vm._e()
+        ]),
+        _vm._v(" "),
+        _vm._m(0)
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("main", [
-      _c("h1", { staticClass: "text-center" }, [_vm._v("Color de imágen")]),
+    return _c("div", { staticClass: "col-6 text-center" }, [
+      _c("h3", [_vm._v("Color predominante")]),
       _vm._v(" "),
-      _c("div", { staticClass: "jumbotron" }, [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-6" }, [
-            _c(
-              "button",
-              { staticClass: "btn btn-primary", attrs: { type: "button" } },
-              [_vm._v("Subir imágen")]
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-6 text-center" }, [
-            _c("h3", [_vm._v("Color predominante")]),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "card", staticStyle: { height: "18rem" } },
-              [_c("div", { staticClass: "card-body" })]
-            )
-          ])
-        ])
+      _c("div", { staticClass: "card", staticStyle: { height: "18rem" } }, [
+        _c("div", { staticClass: "card-body" })
       ])
     ])
   }
