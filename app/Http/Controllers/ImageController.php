@@ -30,13 +30,53 @@ class ImageController extends Controller
         $gAverage = round($gTotal / $total);
         $bAverage = round($bTotal / $total);
 
+        //CON ESTE 'array_rgb' SE OBTIENE EL COLOR EXACTO MÁS PREDOMINANTE
         $array_rgb = array('red' => $rAverage, 'green' => $gAverage, 'blue' => $bAverage);
-        // array_push($array_rgb, $rAverage, $gAverage, $bAverage);
 
-        // print_r($array_rgb);
-        // echo "\n";
-        // print_r($request->input('image'));
-        // echo "\n";
+        // - CON ESTE 'array_rgb' SE DEVUELVE EL COLOR MÁS PRÓXIMO A LA PALETA,
+        //   PERO NO ME CONVENCE EL RESULTADO FINAL, POR LO QUE LO DEJO COMENTADO
+        // $array_rgb = array($rAverage, $gAverage, $bAverage);
+        // return $this->getNearestColor($array_rgb);
+
         return $array_rgb;
+    }
+
+    private function getNearestColor($colorRGB)
+    {
+        $colors = array(
+            array(0, 255, 255),
+            array(0, 0, 0),
+            array(0, 0, 255),
+            array(255, 0, 255),
+            array(0, 0, 128),
+            array(128, 128, 0),
+            array(128, 0, 128),
+            array(255, 0, 0),
+            array(128, 128, 128),
+            array(0, 128, 0),
+            array(0, 255, 0),
+            array(128, 0, 0),
+            array(192, 192, 192),
+            array(0, 128, 128),
+            array(255, 255, 255),
+            array(255, 255, 0)
+        );
+
+        $selectedColor = $colors[0];
+        $deviation = PHP_INT_MAX;
+
+        foreach ($colors as $color) {
+            $curDev = $this->compareColors($colorRGB, $color);
+            if ($curDev < $deviation) {
+                $deviation = $curDev;
+                $selectedColor = $color;
+            }
+        }
+        return $selectedColor;
+    }
+
+    private function compareColors($colorA, $colorB)
+    {
+        return abs($colorA[0] - $colorB[0]) + abs($colorA[1] - $colorB[1]) + abs($colorA[2] - $colorB[2]);
     }
 }

@@ -1903,9 +1903,9 @@ __webpack_require__.r(__webpack_exports__);
       this.showLoading = true;
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/image_color', this.objectImage).then(function (response) {
         var datos = response.data;
-        me.showLoading = false;
-        me.estilo.backgroundColor = "rgb(" + datos.red + "," + datos.green + "," + datos.blue + ")";
-        console.log(response.data);
+        me.showLoading = false; // me.estilo.backgroundColor = "rgb(" + datos[0] + "," + datos[1] + "," + datos[2] + ")";
+
+        me.estilo.backgroundColor = "rgb(" + datos.red + "," + datos.green + "," + datos.blue + ")"; // console.log(response.data[0]);
       })["catch"](function (error) {
         console.log(error);
       });

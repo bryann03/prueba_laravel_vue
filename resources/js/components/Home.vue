@@ -56,8 +56,9 @@ export default {
                 .then( (response) => {
                     let datos = response.data;
                     me.showLoading = false;
+                    // me.estilo.backgroundColor = "rgb(" + datos[0] + "," + datos[1] + "," + datos[2] + ")";
                     me.estilo.backgroundColor = "rgb(" + datos.red + "," + datos.green + "," + datos.blue + ")";
-                    console.log(response.data);
+                    // console.log(response.data[0]);
                 })
                 .catch( (error) => {
                     console.log(error);
