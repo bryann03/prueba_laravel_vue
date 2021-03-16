@@ -45,7 +45,7 @@ export default {
         onFileChange(e){
             let files = e.target.files || e.dataTransfer.files;
             if (files.length > 0){
-                this.objectImage.image = "http://localhost:80/images/" + files[0]['name'];
+                this.objectImage.image = "http://localhost:80/prueba_laravel_vue/resources/assets/" + files[0]['name'];
                 return;
             }
         },
